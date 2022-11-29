@@ -46,14 +46,46 @@ const createDbVidegames = async () => {
             image: gm.background_image,
             released: gm.released,
             rating: gm.rating,
-            platforms: gm.platforms && gm.platforms.map( p => p.platform.name).join(", "),
-            genre: gm.genres && gm.genres.map((g) => g.name)
+            platforms: gm.platforms?.map( p => p.platform.name).join(", "),
+            genres: gm.genres && gm.genres.map((g) => g.name),
         }
     ))
 
-    games.forEach( game => (
-        Videogame.create(game)
-    ))
+    games.forEach(
+        async ({
+            id,
+            name,
+            description,
+            image,
+            released,
+            rating,
+            platforms,
+            genres,
+        }) => {
+            const newVideogame = await Videogame.create({
+                id,
+                name,
+                description,
+                image,
+                released,
+                rating,
+                platforms,
+            });
+                genres.forEach(async (genre) => {
+                    const newGenre = await Genre.findOne({ where: { name: genre } });
+                    await newVideogame.addGenre(newGenre);
+                });
+        }
+    )
+
+
+
+    // games.forEach( async game => (
+    //     Videogame.create({
+    //         ...game,
+    //         genres: genresGame
+    //     })
+    // ))
     console.log("Database Videogame synced");
 }
 
@@ -131,12 +163,46 @@ const createGame = async game => {
 	return gameCreated
 }
 
+const getGameDataBase = async (name) => {
+    const game = await game.findAll({
+        where: {
+            name: {
+                [Op.iLike]: `%${name}%`,
+            },
+        },
+        include: {
+            model: Genre,
+            attributes: ['name'],
+            through: {
+                attributes: [],
+            },
+        // limit: 15
+        },
+    });
+    if (game.length) {
+        const gameFormat = game.map((vg) => {
+            return {
+                id: vg.id,
+                name: vg.name,
+                description: vg.description,
+                image: vg.image,
+                released: vg.released,
+                rating: vg.rating,
+                platforms: vg.platforms,
+                genres: vg.genres.map((g) => g.name).join(', '),
+            };
+        });
+        return gameFormat;
+    } 
+}     
+
 
 module.exports = {
     createDbGenre,
     createDbVidegames,
     getGameByName,
     getGamebyID,
-    createGame
+    createGame,
+    getGameDataBase
 
 }

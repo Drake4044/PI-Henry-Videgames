@@ -21,7 +21,11 @@ const pedido = async (name) => {
             platforms: gm.platforms.map( p => p.platform.name).join(", "),
             genre: gm.genres.map( p => p.name).join(", ")
         }))
+
+    console.log(game);
 }
+
+pedido(name) 
 
 
 
@@ -72,12 +76,39 @@ const pedidogames = async () => {
         }
     ))
     
+    console.log(games);
 }
 
+pedidogames()
 
-const idprueba = "Database 4291"
+const videogame = await Videogame.findAll({
+    where: {
+        name: {
+            [Op.iLike]: `%${name}%`,
+        },
+    },
+    include: {
+        model: Genre,
+        attributes: ['name'],
+        through: {
+            attributes: [],
+        },
+    },
+});
+if (videogame.length) {
+    const videogameFormat = videogame.map((vg) => {
+        return {
+            id: vg.id,
+            name: vg.name,
+            description: vg.description,
+            image: vg.image,
+            released: vg.released,
+            rating: vg.rating,
+            platforms: vg.platforms,
+            genres: vg.genres.map((g) => g.name).join(', '),
+        };
+    });
+    return videogameFormat;
+}
 
-const idfinal = idprueba.split(" ").splice(1).join()
-
-idfinal
 

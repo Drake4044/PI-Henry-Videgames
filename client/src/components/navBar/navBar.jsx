@@ -1,0 +1,29 @@
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getGamesByName } from "../../redux/actions";
+
+
+const NavBar = () => {
+
+    const [ game, setGame ] = useState({ name: "" })
+
+    const dispatch = useDispatch()
+
+    const handleChange = (e) => {
+        setGame({ name: e.target.value })
+        // filtrado()
+    }
+
+    const filtrado = () => {
+        dispatch(getGamesByName(game.name))
+    }
+
+    return (
+        <div>
+            <input type="search" placeholder="Nombre de juego a buscar" value={game.name} onChange={handleChange} />
+            <button onClick={filtrado} >Buscar</button>
+        </div>
+    )
+}
+
+export default NavBar

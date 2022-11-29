@@ -7,8 +7,8 @@
 }
 
 .container img{
-    width: 60%;
-    height: 50%;
+    width: 1000px;
+    height: 800px;
 }
 
 .container h1{
@@ -21,4 +21,10 @@
 
 .container p{
     font-size: 3rem;
+}
+
+.container button{
+    font-size: 1rem;
+    width: 6rem;
+    height: 5rem;
 }

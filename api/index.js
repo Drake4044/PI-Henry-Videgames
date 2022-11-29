@@ -20,7 +20,7 @@
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 const { createDbGenre, createDbVidegames  } = require("../api/src/Funciones.js")
-const syncOptions = { force: true, alter: true };
+const syncOptions = { force: false, alter: true };
 
 const puerto = 3001
 
