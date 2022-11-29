@@ -29,10 +29,10 @@ conn.sync(syncOptions).then(() => {
   server.listen(puerto, async () => {
     
     if(syncOptions.force){
-      console.log("Creando Juegos...")
-      await createDbVidegames()
       console.log("Creando Generos...")
       await createDbGenre()
+      console.log("Creando Juegos...")
+      await createDbVidegames()
       console.log("Database full synced")
     }
     console.log(`Conectado y escuchando en el puerto ${puerto}`)

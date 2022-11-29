@@ -1,6 +1,6 @@
 const express = require("express")
 const { Videogame, Genre } = require('../db');
-const { getGameByName, getGamebyID, createGame } = require("../Funciones.js")
+const { getGameByName, getGamebyID, createGame, joinGenres } = require("../Funciones.js")
 const { Op } = require("sequelize")
 const router = express.Router()
 
@@ -13,16 +13,15 @@ router.get("/", async (req,res) => {
                     },
                     include: {
                         model: Genre,
-                        attributes: ['name'],
-                        through: {
-                            attributes: [],
-                        },
+                        attributes: ["name"],
                     },
                     limit: 15
                 })
-                console.log(games);
+
+                const gamesName = joinGenres(games)
+        
                 games.length
-                ? res.json(games)
+                ? res.json(gamesName)
                 : res.status(400).json(`No se encontro un juego con el nombre = ${req.query.name}`)
         } else {
             try {
@@ -33,20 +32,9 @@ router.get("/", async (req,res) => {
                     },
                 })
 
-                const videogames = allVideogames.map((vg) => {
-                    return {
-                        id: vg.id,
-                        name: vg.name,
-                        description: vg.description,
-                        image: vg.image,
-                        released: vg.released,
-                        rating: vg.rating,
-                        platforms: vg.platforms,
-                        genres: vg.genres.map((g) => g.name).join(', '),
-                    };
-                });
+                const game = joinGenres(allVideogames)
 
-                res.json(videogames)
+                res.json(game)
             } catch (e) {
                 res.status(404).json("Juegos no encontrados")
             }

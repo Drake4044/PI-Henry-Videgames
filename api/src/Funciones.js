@@ -27,6 +27,7 @@ const createDbGenre = async () => {
 
 // Videogames
 const createDbVidegames = async () => {
+
     let videogames = [];
 
 	for (let i = 1; i <= 5; i++) {
@@ -40,52 +41,29 @@ const createDbVidegames = async () => {
 
 
     const games = videogames.map( gm => ({
-            id: "Database " + gm.id,
+            id: gm.id,
             name: gm.name,
             description: gm.description,
             image: gm.background_image,
             released: gm.released,
             rating: gm.rating,
             platforms: gm.platforms?.map( p => p.platform.name).join(", "),
-            genres: gm.genres && gm.genres.map((g) => g.name),
+            genres: gm.genres?.map( g => g.id ),
         }
     ))
 
-    games.forEach(
-        async ({
-            id,
-            name,
-            description,
-            image,
-            released,
-            rating,
-            platforms,
-            genres,
-        }) => {
-            const newVideogame = await Videogame.create({
-                id,
-                name,
-                description,
-                image,
-                released,
-                rating,
-                platforms,
-            });
-                genres.forEach(async (genre) => {
-                    const newGenre = await Genre.findOne({ where: { name: genre } });
-                    await newVideogame.addGenre(newGenre);
-                });
-        }
-    )
+    for (let i = 0 ; i < games.length ; i++) {
+    
+        let newGame = await Videogame.create(games[i]);
+        let relation = games[i].genres;
+        await newGame.addGenre(relation);
+
+    }
 
 
-
-    // games.forEach( async game => (
-    //     Videogame.create({
-    //         ...game,
-    //         genres: genresGame
-    //     })
-    // ))
+    // games.forEach( async game => {
+    //     await Videogame.create(game)
+    // })
     console.log("Database Videogame synced");
 }
 
@@ -196,6 +174,23 @@ const getGameDataBase = async (name) => {
     } 
 }     
 
+const joinGenres = (allGames) => {
+
+    const games = allGames.map( game => (
+        {
+            id: game.id,
+            name: game.name,
+            description: game.description,
+            image: game.image,
+            released: game.released,
+            rating: game.rating,
+            platforms: game.platforms,
+            genres: game.genres.map((g) => g.name).join(', '),
+        }
+    ))
+    return games
+}
+
 
 module.exports = {
     createDbGenre,
@@ -203,6 +198,7 @@ module.exports = {
     getGameByName,
     getGamebyID,
     createGame,
-    getGameDataBase
+    getGameDataBase,
+    joinGenres
 
 }

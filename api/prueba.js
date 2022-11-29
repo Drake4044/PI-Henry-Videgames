@@ -80,35 +80,3 @@ const pedidogames = async () => {
 }
 
 pedidogames()
-
-const videogame = await Videogame.findAll({
-    where: {
-        name: {
-            [Op.iLike]: `%${name}%`,
-        },
-    },
-    include: {
-        model: Genre,
-        attributes: ['name'],
-        through: {
-            attributes: [],
-        },
-    },
-});
-if (videogame.length) {
-    const videogameFormat = videogame.map((vg) => {
-        return {
-            id: vg.id,
-            name: vg.name,
-            description: vg.description,
-            image: vg.image,
-            released: vg.released,
-            rating: vg.rating,
-            platforms: vg.platforms,
-            genres: vg.genres.map((g) => g.name).join(', '),
-        };
-    });
-    return videogameFormat;
-}
-
-

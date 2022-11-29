@@ -11,7 +11,7 @@ const NavBar = () => {
 
     const handleChange = (e) => {
         setGame({ name: e.target.value })
-        // filtrado()
+        filtrado()
     }
 
     const filtrado = () => {
