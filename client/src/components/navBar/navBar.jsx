@@ -21,7 +21,8 @@ const NavBar = () => {
     return (
         <div>
             <input type="search" placeholder="Nombre de juego a buscar" value={game.name} onChange={handleChange} />
-            <button onClick={filtrado} >Buscar</button>
+            <button onClick={filtrado} > Buscar/ Refrescar </button>
+
         </div>
     )
 }

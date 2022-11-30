@@ -9,11 +9,11 @@ import NavBar from "../navBar/navBar.jsx";
 
 const Home = () => {
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(getVideogames())
-    },[dispatch])
+    // useEffect(() => {
+    //     dispatch(getVideogames())
+    // },[dispatch])
     
     const games = useSelector(state => state.games)
 
@@ -28,6 +28,7 @@ const Home = () => {
                     key={g.id}
                     image={g.image}
                     name={g.name}
+                    genres={g.genres}
                     platforms={g.platforms}
                     />
                 ))}

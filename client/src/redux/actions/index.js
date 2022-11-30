@@ -4,6 +4,8 @@ export const GET_ALL_GAMES  = "GET_ALL_GAMES"
 export const GET_GAME_DETAIL  = "GET_GAME_DETAIL" 
 export const CLEAR_GAME_DETAIL = "CLEAR_GAME_DETAIL"
 export const GET_GAMES_BY_NAME = "GET_GAMES_BY_NAME"
+export const DELETE_GAME = "DELETE_GAME"
+
 
 export const getVideogames = () => {
     return async dispatch => {
@@ -50,3 +52,11 @@ export const getGamesByName = (name) => {
         
     }
 }
+
+export const deleteGame = (id) =>{
+    return {
+        type: DELETE_GAME,
+        payload: id
+    }
+}
+

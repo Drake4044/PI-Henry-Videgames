@@ -25,7 +25,7 @@ const pedido = async (name) => {
     console.log(game);
 }
 
-pedido(name) 
+// pedido(name) 
 
 
 
@@ -65,7 +65,7 @@ const pedidogames = async () => {
 	}   
 
     const games = videogames.map( gm => ({
-            id: "api " + gm.id,
+            id: gm.id,
             name: gm.name,
             description: gm.description,
             image: gm.background_image,
@@ -75,8 +75,10 @@ const pedidogames = async () => {
             genre: gm.genres && gm.genres.map((g) => g.name)
         }
     ))
+
+    const filtro = games.forEach( g => (g.name === "auto"))
     
-    console.log(games);
+    console.log(filtro);
 }
 
 pedidogames()
