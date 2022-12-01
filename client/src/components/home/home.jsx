@@ -1,25 +1,21 @@
 import React from "react";
 import "./home.css";
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getVideogames } from "../../redux/actions/index.js";
+import { useSelector } from "react-redux";
 import CardGames from "../cardGame/cardGame";
 import NavBar from "../navBar/navBar.jsx";
+import { Link } from "react-router-dom";
 
 
 const Home = () => {
-
-    // const dispatch = useDispatch()
-
-    // useEffect(() => {
-    //     dispatch(getVideogames())
-    // },[dispatch])
     
     const games = useSelector(state => state.games)
 
     return(
         <div className="home">
             <NavBar/>
+            <Link to="/create" >
+                <button>Create Game</button>
+            </Link>
             <h1>Juegos</h1>
             <div>
                 {games?.map( g => (

@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 const GameDetail = (props) => {
 
     const id = props.match.params.id
-    console.log(props);
 
     const dispatch = useDispatch()
 

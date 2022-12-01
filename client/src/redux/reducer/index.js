@@ -1,4 +1,4 @@
-import { GET_ALL_GAMES, GET_GAME_DETAIL, CLEAR_GAME_DETAIL, GET_GAMES_BY_NAME, DELETE_GAME } from "../actions"
+import { GET_ALL_GAMES, GET_GAME_DETAIL, CLEAR_GAME_DETAIL, GET_GAMES_BY_NAME, FILTER_BY_GENRE, DELETE_GAME } from "../actions"
 
 
 const initialState = {
@@ -27,6 +27,13 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 games: action.payload
+            }
+        case FILTER_BY_GENRE :
+            const gameFilter = state.games.filter( game => 
+                game.genres.includes(action.payload))
+            return {
+                ...state,
+                games: gameFilter
             }
         case DELETE_GAME:
             return {

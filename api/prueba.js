@@ -81,4 +81,4 @@ const pedidogames = async () => {
     console.log(filtro);
 }
 
-pedidogames()
+

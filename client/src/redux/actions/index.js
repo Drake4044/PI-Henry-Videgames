@@ -5,6 +5,7 @@ export const GET_GAME_DETAIL  = "GET_GAME_DETAIL"
 export const CLEAR_GAME_DETAIL = "CLEAR_GAME_DETAIL"
 export const GET_GAMES_BY_NAME = "GET_GAMES_BY_NAME"
 export const DELETE_GAME = "DELETE_GAME"
+export const FILTER_BY_GENRE = "FILTER_BY_GENRE"
 
 
 export const getVideogames = () => {
@@ -50,6 +51,14 @@ export const getGamesByName = (name) => {
             console.log(error.response.data);
         }
         
+    }
+}
+
+
+export const filterGenre = genre => {
+    return {
+        type: FILTER_BY_GENRE,
+        payload: genre
     }
 }
 

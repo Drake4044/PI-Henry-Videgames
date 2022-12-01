@@ -1,6 +1,6 @@
 const express = require("express")
 const { Videogame, Genre } = require('../db');
-const { getGameByName, getGamebyID, createGame, joinGenres } = require("../Funciones.js")
+const { getGameByName, getGamebyID, createGame, AllJoinGenres, joinGenre, getDescription } = require("../Funciones.js")
 const { Op } = require("sequelize")
 const router = express.Router()
 
@@ -18,7 +18,7 @@ router.get("/", async (req,res) => {
                     limit: 15
                 })
 
-                const gamesName = joinGenres(games)
+                const gamesName = AllJoinGenres(games)
         
                 games.length
                 ? res.json(gamesName)
@@ -32,7 +32,7 @@ router.get("/", async (req,res) => {
                     },
                 })
 
-                const game = joinGenres(allVideogames)
+                const game = AllJoinGenres(allVideogames)
 
                 res.json(game)
             } catch (e) {
@@ -46,11 +46,21 @@ router.get("/", async (req,res) => {
 router.get("/:id", async (req,res) => {
     try {
         const { id } = req.params
-        const game = await getGamebyID(id)
+        // const game = await getGamebyID(id)
+        await getDescription(id)
+
+        const game = await Videogame.findByPk(id,{
+            include: {
+                model: Genre,
+                attributes: ["name"],
+            },
+        })
+
+        const finalgame = joinGenre(game)
     
-        !game
+        !finalgame
         ? res.status(400).json(`No se encontro el id: ${req.params.id}`)
-        : res.json(game)
+        : res.json(finalgame)
     } catch (error) {
         res.status(400).json(`No se encontro el id: ${req.params.id}`)
     }

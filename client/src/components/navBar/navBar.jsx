@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getGamesByName } from "../../redux/actions";
+import { getGamesByName, filterGenre } from "../../redux/actions";
 
 
 const NavBar = () => {
@@ -11,11 +11,11 @@ const NavBar = () => {
 
     const handleChange = (e) => {
         setGame({ name: e.target.value })
-        filtrado()
+        // filtrado()
     }
 
     const filtrado = () => {
-        dispatch(getGamesByName(game.name))
+        dispatch(filterGenre(game.name))
     }
 
     return (

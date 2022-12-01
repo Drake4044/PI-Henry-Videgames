@@ -1,4 +1,4 @@
-require('dotenv').config();
+    require('dotenv').config();
 const axios = require("axios")
 const { Videogame, Genre } = require('../src/db.js');
 const { API_KEY } = process.env;
@@ -174,7 +174,7 @@ const getGameDataBase = async (name) => {
     } 
 }     
 
-const joinGenres = (allGames) => {
+const AllJoinGenres = allGames => {
 
     const games = allGames.map( game => (
         {
@@ -191,6 +191,49 @@ const joinGenres = (allGames) => {
     return games
 }
 
+const joinGenre = game => {
+
+    joinGame = {
+        id: game.id,
+        name: game.name,
+        description: game.description,
+        image: game.image,
+        released: game.released,
+        rating: game.rating,
+        platforms: game.platforms,
+        genres: game.genres.map((g) => g.name).join(', '),
+    }
+
+    return joinGame
+}
+
+
+const getDescription = async id => {
+    const pedidoId = await
+    axios(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`)
+
+    const game = await pedidoId.data
+    const description = game.description_raw 
+        
+    await Videogame.update({ 
+            description: description 
+        }, {
+            where: {
+                id: id,
+                description: ""
+            }
+        })
+
+    // gameFinal = await Videogame.findByPk(id,{
+    //     include: {
+    //         model: Genre,
+    //         attributes: ["name"],
+    //     },
+    // })
+
+    // return gameFinal
+}
+
 
 module.exports = {
     createDbGenre,
@@ -199,6 +242,8 @@ module.exports = {
     getGamebyID,
     createGame,
     getGameDataBase,
-    joinGenres
+    AllJoinGenres,
+    joinGenre,
+    getDescription
 
 }
