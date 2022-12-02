@@ -70,12 +70,9 @@ router.get("/:id", async (req,res) => {
 
 router.post("/", async (req,res) => {
     try {
-        const { id, name, description, platforms } = req.body
-        if( id && name && description && platforms ){
-            const newGame = await createGame(req.body)
-            res.json(newGame)
-        }
-        res.status(400).json("Faltan completar datos")
+        const newGame = await createGame(req.body)
+        ? res.json(newGame)
+        : res.status(400).json("Faltan completar datos")
     } catch (error) {
         res.status(404).json("No se pudo cargar el juego ):")
     }

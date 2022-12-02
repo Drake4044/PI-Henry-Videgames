@@ -6,6 +6,7 @@ export const CLEAR_GAME_DETAIL = "CLEAR_GAME_DETAIL"
 export const GET_GAMES_BY_NAME = "GET_GAMES_BY_NAME"
 export const DELETE_GAME = "DELETE_GAME"
 export const FILTER_BY_GENRE = "FILTER_BY_GENRE"
+export const CREATE_GAME = "CREATE_GAME"
 
 
 export const getVideogames = () => {
@@ -52,6 +53,17 @@ export const getGamesByName = (name) => {
         }
         
     }
+}
+
+export const createGame =  game => {
+    return async dispatch => {
+        const newGame = await axios.post("http://localhost:3001/videogames", game)
+        return dispatch({
+            type: CREATE_GAME,
+            payload: newGame.data
+        })
+    }
+    
 }
 
 
